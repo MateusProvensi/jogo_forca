@@ -83,13 +83,17 @@ def receber_letra(jogador_vez, letras_ja_digitadas):
         letra = input(f'Digite uma letra, {jogador_vez}: ')
         if len(letra) > 1 or len(letra) < 1:
             print('A letra é apenas um caractere.')
+            continue
         elif letra.isnumeric():
             print('Precisamos de uma letra e não um número.')
+            continue
         elif letra in letras_impossiveis:
             print('Esta letra é impossível.')
+            continue
         letra = letra.upper()
         if letra in letras_ja_digitadas:
             print('Esta letra já foi digitada.')
+            continue
         else:
             return letra
 

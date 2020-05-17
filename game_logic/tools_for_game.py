@@ -20,6 +20,7 @@ def definir_se_ganhou_perdeu(palavra_certa, erros, letras_adivinhadas, jogador_v
         return 'ADIVINHOU'
     elif erros == 9:
         print(f'Ninguém adivinhou a palavra.')
+        print(f'A palavra correta era: {palavra_certa}')
         print()
         return 'NAO_ADIVINHOU'
     else:

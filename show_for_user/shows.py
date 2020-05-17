@@ -116,4 +116,7 @@ _______
 
 
 def mostrar_placar(lista_jogadores):
-    pass
+    print(f'O placar está da seguinte forma:\n')
+    for jogador in lista_jogadores:
+        print(f'Jogador(a): {jogador.get("nome")}; Pontos: {jogador.get("pontos")};')
+

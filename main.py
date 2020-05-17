@@ -50,7 +50,13 @@ if tipo_jogo == '2':
         resultado = definir_se_ganhou_perdeu(palavra_certa, erros_na_palavra, letras_adivinhadas, jogador_vez)
         if resultado == 'NAO_ADIVINHOU':
             definir_pontos_nao_adivinhou(jogadores, comeca_bateria)
+            print()
+            mostrar_placar(jogadores)
+            print()
             inicio_bateria = True
         elif resultado == 'ADIVINHOU':
             definir_pontos_adivinhou(jogadores, comeca_bateria, jogador_vez)
+            print()
+            mostrar_placar(jogadores)
+            print()
             inicio_bateria = True
