@@ -1,9 +1,14 @@
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+#from user_interactions.for_user_interaction import *
+import random
+
+
 def definir_jogador_da_vez(lista_de_jogadores, jogadores_jogaram=None):
-    from random import randint
     if jogadores_jogaram is None:
         jogadores_jogaram = []
     while True:
-        jogador_escolhido = randint(0, len(lista_de_jogadores) - 1)
+        jogador_escolhido = random.randint(0, len(lista_de_jogadores) - 1)
         if lista_de_jogadores[jogador_escolhido].get('nome') in jogadores_jogaram:
             continue
         else:
@@ -42,3 +47,38 @@ def definir_pontos_adivinhou(lista_jogadores, formulador_questao, jogador_vez):
             jogador['pontos'] += 2
         else:
             jogador['pontos'] += 1
+
+
+def sem_acentos(palavra_com_acentos):
+    palavra_sem_acentos = palavra_com_acentos.replace('í', 'i').replace('é', 'e').replace('ã', 'a').replace(' ', '')
+    palavra_sem_acentos = palavra_sem_acentos.replace('á', 'a').replace('ó', 'o').replace('õ', 'o').replace('ú', 'u')
+    palavra_sem_acentos = palavra_sem_acentos.replace('â', 'a').replace('ô', 'o').replace('ê', 'e').replace('ç', 'c')
+    return palavra_sem_acentos.upper()
+
+
+def escolhe():
+    lista = []
+    if not lista:
+        html = urlopen("https://www.vortexmag.net/as-73-palavras-mais-usadas-na-lingua-portuguesa/")
+        bsObj = BeautifulSoup(html.read(), "html.parser")
+        listas_de_palavras = bsObj.findAll("ul")
+        for lista_de_palavra in listas_de_palavras:
+            if '<ul>' in str(lista_de_palavra):
+                palavras = lista_de_palavra.findAll('li')
+                for palavra in palavras:
+                    lista.append(palavra.get_text())
+    while True:
+        escolha = random.choice(lista)
+        escolha = escolha[0:-1]
+        if len(escolha) <= 2:
+            continue
+        else:
+            escolha = sem_acentos(escolha)
+            break
+    return escolha
+    #return lista
+
+
+if __name__ == '__main__':
+    print(escolhe())
+    pass

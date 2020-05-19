@@ -48,7 +48,7 @@ def definindo_tipo_jogo():
         if escolha_tipo_jogo in ('1', '2', '3'):
             return escolha_tipo_jogo
         else:
-            print('Escolha um tipo válido.')
+            print('Escolha uma opção válida.')
 
 
 def recebendo_palavra_usuario(usuario_vez):
@@ -61,8 +61,7 @@ def recebendo_palavra_usuario(usuario_vez):
             print('Sua palavra deve ter 2 caracteres ou mais.')
         elif palavra.isalpha():
             palavra = palavra.lower()
-            palavra_sem_acentos = sem_acentos(palavra)
-            return palavra_sem_acentos
+            return sem_acentos(palavra)
         elif palavra.isalnum() or palavra.isnumeric():
             print('Sua palavra deve ser constituida apenas por letras.')
 
