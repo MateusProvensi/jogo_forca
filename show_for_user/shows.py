@@ -1,3 +1,6 @@
+from os import system
+
+
 def inicio_mostrar():
     print('-=' * 25)
     print('Bem vindo ao seu jogo da forca'.center(50))
@@ -136,6 +139,9 @@ def mostrar_placar(lista_jogadores):
         print(f'Jogador(a): {jogador.get("nome")}; Pontos: {jogador.get("pontos")};')
 
 
+def limpa_tela():
+    system('cls')
+
+
 if __name__ == '__main__':
     instrucoes()
-

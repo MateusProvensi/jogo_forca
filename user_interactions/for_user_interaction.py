@@ -11,6 +11,13 @@ def definir_jogadores(quantidade_jogadores):
             if len(jogador_atual.get('nome')) <= 3:
                 print('O seu nome deve ter mais que 3 caracteres.')
         jogadores.append(jogador_atual)
+    jogador_atual = {
+        'nome': '',
+        'pontos': 0,
+    }
+    if quantidade_jogadores == 1:
+        jogador_atual['nome'] = 'PC'
+        jogadores.append(jogador_atual)
     return jogadores
 
 
@@ -54,9 +61,8 @@ def definindo_tipo_jogo():
 def recebendo_palavra_usuario(usuario_vez):
     print(f'É a hora do jogador(a) {usuario_vez}, lembrando que letras com acentos serão realocados para sem acentos e '
           f'cedilhas para a letra c')
-    print('CUIDADO! Preste atenção para seus colegas não verem.')
     while True:
-        palavra = input('\nDigite a palavra para seus colegas adivinharem: ')
+        palavra = input('\nDigite a palavra que será adivinhada: ')
         if len(palavra) < 2:
             print('Sua palavra deve ter 2 caracteres ou mais.')
         elif palavra.isalpha():
@@ -98,4 +104,6 @@ def receber_letra(jogador_vez, letras_ja_digitadas):
 
 
 if __name__ == '__main__':
+    jogadores = definir_jogadores(1)
+    print(jogadores)
     pass
