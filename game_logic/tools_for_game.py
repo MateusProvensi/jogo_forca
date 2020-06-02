@@ -16,9 +16,9 @@ def definir_jogador_da_vez(lista_de_jogadores, jogadores_jogaram=None):
             return jogador_escolhido
 
 
-def definir_se_ganhou_perdeu(palavra_certa, erros, letras_adivinhadas, jogador_vez):
+def definir_se_ganhou_perdeu(palavra_certa, erros, letras_adivinhadas_ou_palavra_chutada, jogador_vez):
     print()
-    if set(sorted(palavra_certa)) == set(sorted(letras_adivinhadas)):
+    if set(sorted(palavra_certa)) == set(sorted(letras_adivinhadas_ou_palavra_chutada)):
         print(f'Parabéns, o vencedor desta bateria foi o(a) {jogador_vez}')
         print(f'A palavra correta era: {palavra_certa}')
         print()
@@ -61,8 +61,8 @@ def escolhe_palavra_pc():
     lista = []
     if not lista:
         html = urlopen("https://www.vortexmag.net/as-73-palavras-mais-usadas-na-lingua-portuguesa/")
-        bsObj = BeautifulSoup(html.read(), "html.parser")
-        listas_de_palavras = bsObj.findAll("ul")
+        bs_obj = BeautifulSoup(html.read(), "html.parser")
+        listas_de_palavras = bs_obj.findAll("ul")
         for lista_de_palavra in listas_de_palavras:
             if '<ul>' in str(lista_de_palavra):
                 palavras = lista_de_palavra.findAll('li')
@@ -106,4 +106,4 @@ def definir_pontos_nao_adivinhou_single(jogadores, jogador_formulou_palavra):
 
 
 if __name__ == '__main__':
-    print(escolhe_palavra_pc())
+    pass

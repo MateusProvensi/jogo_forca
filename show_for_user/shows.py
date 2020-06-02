@@ -40,7 +40,6 @@ def instrucoes():
 
 
 def mostrar_forca_palavra(palavra_certa, letras_adivinhadas, erros):
-    print()
     forca = ['''
 _______
 |/      |
@@ -134,7 +133,7 @@ _______
 
 
 def mostrar_placar(lista_jogadores):
-    print(f'O placar está da seguinte forma:\n')
+    print(f'O placar ficou da seguinte forma:\n')
     for jogador in lista_jogadores:
         print(f'Jogador(a): {jogador.get("nome")}; Pontos: {jogador.get("pontos")};')
 
@@ -144,4 +143,4 @@ def limpa_tela():
 
 
 if __name__ == '__main__':
-    instrucoes()
+    pass

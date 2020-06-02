@@ -2,7 +2,8 @@ from user_interactions.for_user_interaction import *
 from game_logic.tools_for_game import *
 from show_for_user.shows import *
 
-alfabeto = ['A', 'B', 'C', 'D', 'E']
+alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+            'V', 'W', 'X', 'Y', 'Z']
 jogadores_ja_jogaram_na_rodada_da_bateria = []
 jogadores_ja_colocaram_a_palavra = []
 letras_adivinhadas = []
@@ -12,6 +13,8 @@ inicio_bateria = True
 palavra_certa = None
 comeca_bateria = None
 jogador_que_adivinha = None
+tentou_adivinhar_palavra = False
+resultado = ''
 
 inicio_mostrar()
 while True:
@@ -39,28 +42,38 @@ while True:
                     letras_chutadas.clear()
                     erros_na_palavra = 0
                     inicio_bateria = False
+            limpa_tela()
             mostrar_forca_palavra(palavra_certa, letras_adivinhadas, erros_na_palavra)
             if jogador_que_adivinha == 'PC':
                 letra_da_vez = pc_escolhendo_letra(alfabeto, letras_chutadas)
             else:
-                letra_da_vez = receber_letra(jogadores[0].get('nome'), letras_chutadas)
-            letras_chutadas.append(letra_da_vez)
-            if letra_da_vez in palavra_certa:
-                if jogador_que_adivinha == 'PC':
-                    print('O PC acertou uma letra.')
+                letra_da_vez = receber_letra(jogadores[0].get('nome'), letras_chutadas, palavra_certa, erros_na_palavra)
+            if letra_da_vez == 'ADIVINHOU':
+                tentou_adivinhar_palavra = True
+                resultado = 'ADIVINHOU'
+            elif letra_da_vez is None:
+                tentou_adivinhar_palavra = True
+                resultado = None
+                print('Que pena, você errou :(, mas o jogo continua.')
+                sleep(1.5)
+            if not tentou_adivinhar_palavra:
+                letras_chutadas.append(letra_da_vez)
+                if letra_da_vez in palavra_certa:
+                    if jogador_que_adivinha == 'PC':
+                        print('O PC acertou uma letra.')
+                    else:
+                        print('Você acertou uma letra.')
+                    sleep(1)
+                    letras_adivinhadas.append(letra_da_vez)
                 else:
-                    print('Você acertou uma letra.')
-                sleep(1)
-                letras_adivinhadas.append(letra_da_vez)
-            else:
-                if jogador_que_adivinha == 'PC':
-                    print('O PC errou.')
-                else:
-                    print('Você errou.')
-                sleep(1)
-                erros_na_palavra += 1
-            resultado = definir_se_ganhou_perdeu(palavra_certa, erros_na_palavra, letras_adivinhadas,
-                                                 jogador_que_adivinha)
+                    if jogador_que_adivinha == 'PC':
+                        print('O PC errou.')
+                    else:
+                        print('Você errou.')
+                    sleep(1)
+                    erros_na_palavra += 1
+                resultado = definir_se_ganhou_perdeu(palavra_certa, erros_na_palavra, letras_adivinhadas,
+                                                     jogador_que_adivinha)
             if resultado == 'NAO_ADIVINHOU':
                 definir_pontos_nao_adivinhou_single(jogadores, comeca_bateria)
                 print()
@@ -73,10 +86,18 @@ while True:
                 mostrar_placar(jogadores)
                 print()
                 inicio_bateria = True
+            if inicio_bateria:
+                continuar_jogo = continuar_jogar()
+                if not continuar_jogo:
+                    print('\nPor que nos abandonou? :(\n')
+                    mostrar_placar(jogadores)
+                    input('\nPressione enter para confirmar sua saída')
+                    exit()
+                limpa_tela()
 
     if tipo_jogo == '2':
         jogadores = definir_jogadores(definir_quantidade_jogadores())
-        print()
+        limpa_tela()
         mostrar_jogadores(jogadores)
         print()
         while True:
@@ -96,19 +117,29 @@ while True:
                     jogadores_ja_jogaram_na_rodada_da_bateria.append(comeca_bateria)
                     inicio_bateria = False
                     break
+            limpa_tela()
             mostrar_forca_palavra(palavra_certa, letras_adivinhadas, erros_na_palavra)
             if len(jogadores_ja_jogaram_na_rodada_da_bateria) == len(jogadores):
                 jogadores_ja_jogaram_na_rodada_da_bateria.clear()
                 jogadores_ja_jogaram_na_rodada_da_bateria.append(comeca_bateria)
             jogador_vez = definir_jogador_da_vez(jogadores, jogadores_ja_jogaram_na_rodada_da_bateria)
             jogadores_ja_jogaram_na_rodada_da_bateria.append(jogador_vez)
-            letra_da_vez = receber_letra(jogador_vez, letras_chutadas)
-            letras_chutadas.append(letra_da_vez)
-            if letra_da_vez in palavra_certa:
-                letras_adivinhadas.append(letra_da_vez)
-            else:
-                erros_na_palavra += 1
-            resultado = definir_se_ganhou_perdeu(palavra_certa, erros_na_palavra, letras_adivinhadas, jogador_vez)
+            letra_da_vez = receber_letra(jogador_vez, letras_chutadas, palavra_certa, erros_na_palavra)
+            if letra_da_vez == 'ADIVINHOU':
+                tentou_adivinhar_palavra = True
+                resultado = 'ADIVINHOU'
+            elif letra_da_vez is None:
+                tentou_adivinhar_palavra = True
+                resultado = None
+                print('Que pena, você errou :(, mas o jogo continua.')
+                sleep(2)
+            if not tentou_adivinhar_palavra:
+                letras_chutadas.append(letra_da_vez)
+                if letra_da_vez in palavra_certa:
+                    letras_adivinhadas.append(letra_da_vez)
+                else:
+                    erros_na_palavra += 1
+                resultado = definir_se_ganhou_perdeu(palavra_certa, erros_na_palavra, letras_adivinhadas, jogador_vez)
             if resultado == 'NAO_ADIVINHOU':
                 definir_pontos_nao_adivinhou(jogadores, comeca_bateria)
                 print()
@@ -121,6 +152,14 @@ while True:
                 mostrar_placar(jogadores)
                 print()
                 inicio_bateria = True
+            if inicio_bateria:
+                continuar_jogo = continuar_jogar()
+                if not continuar_jogo:
+                    print('Por que nos abandonou? :(')
+                    mostrar_placar(jogadores)
+                    input('\nPressione enter para confirmar sua saída')
+                    exit()
+                limpa_tela()
     elif tipo_jogo == '3':
         print()
         instrucoes()

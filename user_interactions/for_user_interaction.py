@@ -1,3 +1,6 @@
+from game_logic.tools_for_game import *
+
+
 def definir_jogadores(quantidade_jogadores):
     print()
     jogadores = []
@@ -72,7 +75,6 @@ def recebendo_palavra_usuario(usuario_vez):
             print('Sua palavra deve ser constituida apenas por letras.')
 
 
-
 def sem_acentos(palavra_com_acentos):
     palavra_sem_acentos = palavra_com_acentos.replace('í', 'i').replace('é', 'e').replace('ã', 'a').replace(' ', '')
     palavra_sem_acentos = palavra_sem_acentos.replace('á', 'a').replace('ó', 'o').replace('õ', 'o').replace('ú', 'u')
@@ -80,12 +82,23 @@ def sem_acentos(palavra_com_acentos):
     return palavra_sem_acentos.upper()
 
 
-def receber_letra(jogador_vez, letras_ja_digitadas):
+def receber_letra(jogador_vez, letras_ja_digitadas, palavra_certa, erros):
     letras_impossiveis = ('/', '*', '-', '+', '´', '`', '^', '~', ',', '.', ';', ':', '[', ']', '{', '}', '\'', '\"',
                           '<', '>')
     while True:
         print()
-        letra = input(f'Digite uma letra, {jogador_vez}: ')
+        letra = input(f'Digite uma letra, {jogador_vez}[& para chutar]: ')
+        if letra == '&':
+            while True:
+                palavra_chute = input('\nDigite a palavra que você acha que é: ')
+                if palavra_chute == '':
+                    print('Não pode ser vazio.')
+                else:
+                    palavra_chute = palavra_chute.upper()
+                    palavra_chute_lista = list(palavra_chute)
+                    resultado_do_chute = definir_se_ganhou_perdeu(palavra_certa, erros, palavra_chute_lista,
+                                                                  jogador_vez)
+                    return resultado_do_chute
         if len(letra) > 1 or len(letra) < 1:
             print('A letra é apenas um caractere.')
             continue
@@ -103,7 +116,21 @@ def receber_letra(jogador_vez, letras_ja_digitadas):
             return letra
 
 
+def continuar_jogar():
+    while True:
+        continuar = input('\nDeseja continuar a jogar[S/N]? ')
+        if continuar not in ('S', 'N', 's', 'n'):
+            print('Digite S ou N.')
+            continue
+        else:
+            continuar = continuar.upper()
+            if continuar == 'S':
+                return True
+            elif continuar == 'N':
+                return False
+
+
 if __name__ == '__main__':
-    jogadores = definir_jogadores(1)
-    print(jogadores)
+    resultado = receber_letra('Mateus', ['a', 'v', 'q'], 'BOLO', 3)
+    print(resultado)
     pass
