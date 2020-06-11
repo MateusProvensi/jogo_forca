@@ -1,4 +1,4 @@
-from os import system
+import os
 
 
 def inicio_mostrar():
@@ -139,7 +139,7 @@ def mostrar_placar(lista_jogadores):
 
 
 def limpa_tela():
-    system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 if __name__ == '__main__':

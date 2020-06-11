@@ -155,7 +155,7 @@ while True:
             if inicio_bateria:
                 continuar_jogo = continuar_jogar()
                 if not continuar_jogo:
-                    print('Por que nos abandonou? :(')
+                    print('\nPor que nos abandonou? :(\n')
                     mostrar_placar(jogadores)
                     input('\nPressione enter para confirmar sua saída')
                     exit()
